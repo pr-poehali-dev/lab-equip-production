@@ -157,16 +157,25 @@ export default function Catalog() {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4"
           style={{ background:"rgba(13,21,32,0.8)", backdropFilter:"blur(4px)" }}
           onClick={() => setSelected(null)}>
-          <div className="bg-white w-full max-w-lg shadow-2xl" onClick={e => e.stopPropagation()}>
-            <div className="px-8 py-6 flex items-start justify-between"
-              style={{ background:"var(--ink)", borderBottom:"2px solid var(--cyan)" }}>
-              <div>
-                <p className="font-plex text-xs tracking-[0.2em] uppercase mb-1" style={{ color:"var(--cyan)" }}>{selected.category}</p>
-                <h3 className="font-oswald text-3xl font-medium text-white">{selected.model}</h3>
+          <div className="bg-white w-full max-w-xl shadow-2xl overflow-hidden" onClick={e => e.stopPropagation()}
+            style={{ maxHeight:"90svh", overflowY:"auto" }}>
+            {/* Image */}
+            <div className="relative" style={{ aspectRatio:"16/7" }}>
+              <img
+                src={selected.image}
+                alt={selected.model}
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0" style={{ background:"linear-gradient(180deg, transparent 30%, rgba(13,21,32,0.85) 100%)" }} />
+              <div className="absolute bottom-0 left-0 right-0 px-8 py-6 flex items-end justify-between">
+                <div>
+                  <p className="font-plex text-xs tracking-[0.2em] uppercase mb-1" style={{ color:"var(--cyan)" }}>{selected.category}</p>
+                  <h3 className="font-oswald text-3xl font-medium text-white">{selected.model}</h3>
+                </div>
+                <button onClick={() => setSelected(null)} className="text-white/50 hover:text-white transition-colors mb-1">
+                  <Icon name="X" size={20} />
+                </button>
               </div>
-              <button onClick={() => setSelected(null)} className="text-gray-500 hover:text-white mt-1 transition-colors">
-                <Icon name="X" size={20} />
-              </button>
             </div>
             <div className="p-8">
               <p className="font-plex text-sm mb-8" style={{ color:"#5a6e82", lineHeight:1.7, fontWeight:300 }}>{selected.desc}</p>
