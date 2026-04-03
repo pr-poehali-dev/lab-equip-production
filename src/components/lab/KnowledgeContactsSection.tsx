@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Icon from "@/components/ui/icon";
 import { ARTICLES, VIDEOS } from "./data";
+import QuoteForm from "./QuoteForm";
 
 export default function KnowledgeContactsSection() {
   const [kbTab, setKbTab] = useState<"articles"|"videos">("articles");
@@ -129,40 +130,8 @@ export default function KnowledgeContactsSection() {
             ))}
           </div>
 
-          {/* Form */}
-          <div className="bg-white p-10 max-w-2xl" style={{ border:"1px solid #dde4ed" }}>
-            <h3 className="font-oswald text-xl font-semibold mb-8" style={{ color:"var(--ink)", letterSpacing:"0.05em" }}>
-              ЗАПРОС КОММЕРЧЕСКОГО ПРЕДЛОЖЕНИЯ
-            </h3>
-            <div className="grid sm:grid-cols-2 gap-4 mb-4">
-              {[
-                { l:"Организация",     p:"ООО «Название»",       t:"text" },
-                { l:"Контактное лицо", p:"Иванов Иван Иванович", t:"text" },
-                { l:"Телефон",         p:"+7 (___) ___-__-__",   t:"tel"  },
-                { l:"E-mail",          p:"mail@company.ru",       t:"email"},
-              ].map((f,i) => (
-                <div key={i}>
-                  <label className="font-plex text-xs uppercase tracking-wider mb-2 block" style={{ color:"#8096ad" }}>{f.l}</label>
-                  <input type={f.t} placeholder={f.p}
-                    className="w-full outline-none font-plex text-sm px-4 py-3.5 transition-colors"
-                    style={{ border:"1px solid #dde4ed", color:"var(--ink)" }}
-                    onFocus={e => (e.currentTarget.style.borderColor = "var(--cyan)")}
-                    onBlur={e  => (e.currentTarget.style.borderColor = "#dde4ed")} />
-                </div>
-              ))}
-            </div>
-            <div className="mb-7">
-              <label className="font-plex text-xs uppercase tracking-wider mb-2 block" style={{ color:"#8096ad" }}>Вопрос / оборудование</label>
-              <textarea rows={4} placeholder="Опишите, что вас интересует…"
-                className="w-full outline-none font-plex text-sm px-4 py-3.5 resize-none transition-colors"
-                style={{ border:"1px solid #dde4ed", color:"var(--ink)" }}
-                onFocus={e => (e.currentTarget.style.borderColor = "var(--cyan)")}
-                onBlur={e  => (e.currentTarget.style.borderColor = "#dde4ed")} />
-            </div>
-            <button className="w-full font-plex text-xs font-semibold uppercase tracking-[0.15em] transition-all hover:brightness-110"
-              style={{ background:"var(--ink)", color:"#fff", padding:"1.1rem" }}>
-              ОТПРАВИТЬ ЗАПРОС
-            </button>
+          <div className="max-w-2xl">
+            <QuoteForm />
           </div>
         </div>
       </section>

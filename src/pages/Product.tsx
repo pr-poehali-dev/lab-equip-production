@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Icon from "@/components/ui/icon";
 import { EQUIPMENT, NAV, CATEGORY_INFO } from "@/components/lab/data";
+import QuoteForm from "@/components/lab/QuoteForm";
 
 export default function Product() {
   const { id } = useParams();
@@ -186,44 +187,30 @@ export default function Product() {
               </div>
             </div>
 
-            {/* ── RIGHT: CTA ── */}
+            {/* ── RIGHT: FORM + BADGES ── */}
             <div className="lg:col-span-5">
-              <div className="sticky top-20">
-                <div style={{ border:"1px solid #e0e6ef", borderTop:"3px solid var(--cyan)" }}>
-                  <div className="p-7 bg-white">
-                    <p className="font-oswald text-xl font-semibold mb-1" style={{ color:"var(--ink)" }}>
-                      Запросить коммерческое предложение
-                    </p>
-                    <p className="font-plex text-xs mb-6" style={{ color:"#8096ad", fontWeight:300 }}>
-                      Ответим в течение 4 рабочих часов. Укажем актуальную цену и сроки поставки.
-                    </p>
-                    <button onClick={() => navigate("/#contacts")}
-                      className="w-full font-plex text-xs font-semibold uppercase tracking-wider py-4 mb-3 transition-all hover:brightness-110"
-                      style={{ background:"var(--cyan)", color:"#fff" }}>
-                      Запросить КП
-                    </button>
-                    <button onClick={() => navigate("/catalog")}
-                      className="w-full font-plex text-xs font-medium uppercase tracking-wider py-4 transition-all"
-                      style={{ border:"1px solid #dde4ed", color:"#6b7f94" }}
-                      onMouseEnter={e => (e.currentTarget.style.borderColor = "var(--ink)")}
-                      onMouseLeave={e => (e.currentTarget.style.borderColor = "#dde4ed")}>
-                      ← Назад в каталог
-                    </button>
-                  </div>
-                  <div className="px-7 py-5" style={{ background:"var(--sand)", borderTop:"1px solid #e0e6ef" }}>
-                    {[
-                      { icon:"ShieldCheck", text:"Гарантия 12 месяцев" },
-                      { icon:"Wrench",      text:"Сервис производителя" },
-                      { icon:"Truck",       text:"Доставка по всей России" },
-                      { icon:"GraduationCap", text:"Обучение персонала" },
-                    ].map((b, i) => (
-                      <div key={i} className={`flex items-center gap-3 ${i < 3 ? "mb-3" : ""}`}>
-                        <Icon name={b.icon} size={15} style={{ color:"var(--cyan)" }} fallback="Check" />
-                        <span className="font-plex text-xs" style={{ color:"#4a5568" }}>{b.text}</span>
-                      </div>
-                    ))}
-                  </div>
+              <div className="sticky top-20 space-y-4">
+                <QuoteForm productName={item.model} />
+                <div className="px-6 py-5" style={{ background:"white", border:"1px solid #e0e6ef" }}>
+                  {[
+                    { icon:"ShieldCheck",   text:"Гарантия 12 месяцев" },
+                    { icon:"Wrench",        text:"Сервис производителя" },
+                    { icon:"Truck",         text:"Доставка по всей России" },
+                    { icon:"GraduationCap", text:"Обучение персонала" },
+                  ].map((b, i, arr) => (
+                    <div key={i} className={`flex items-center gap-3 ${i < arr.length - 1 ? "mb-3" : ""}`}>
+                      <Icon name={b.icon} size={15} style={{ color:"var(--cyan)" }} fallback="Check" />
+                      <span className="font-plex text-xs" style={{ color:"#4a5568" }}>{b.text}</span>
+                    </div>
+                  ))}
                 </div>
+                <button onClick={() => navigate("/catalog")}
+                  className="w-full font-plex text-xs font-medium uppercase tracking-wider py-3.5 transition-all"
+                  style={{ border:"1px solid #dde4ed", color:"#6b7f94" }}
+                  onMouseEnter={e => (e.currentTarget.style.borderColor = "var(--ink)")}
+                  onMouseLeave={e => (e.currentTarget.style.borderColor = "#dde4ed")}>
+                  ← Назад в каталог
+                </button>
               </div>
             </div>
           </div>
