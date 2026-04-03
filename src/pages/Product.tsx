@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Icon from "@/components/ui/icon";
-import { EQUIPMENT, NAV } from "@/components/lab/data";
+import { EQUIPMENT, NAV, CATEGORY_INFO } from "@/components/lab/data";
 
 export default function Product() {
   const { id } = useParams();
   const navigate = useNavigate();
   const item = EQUIPMENT.find(e => e.id === Number(id));
   const [activeImg, setActiveImg] = useState(0);
+  const [openFaq,   setOpenFaq]   = useState<number | null>(null);
 
   if (!item) {
     return (
@@ -226,6 +227,95 @@ export default function Product() {
               </div>
             </div>
           </div>
+
+          {/* ── CATEGORY INFO: Benefits / Applications / FAQ ── */}
+          {CATEGORY_INFO[item.category] && (() => {
+            const info = CATEGORY_INFO[item.category];
+            return (
+              <div className="mt-20 space-y-16">
+
+                {/* Benefits */}
+                <div>
+                  <div className="flex items-center gap-3 mb-8">
+                    <div className="h-px w-8" style={{ background:"var(--cyan)" }} />
+                    <span className="font-oswald text-sm tracking-[0.15em] uppercase" style={{ color:"var(--ink)" }}>
+                      Преимущества
+                    </span>
+                  </div>
+                  <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                    {info.benefits.map((b, i) => (
+                      <div key={i} className="p-6 bg-white" style={{ border:"1px solid #e0e6ef", borderTop:"3px solid var(--cyan)" }}>
+                        <div className="w-10 h-10 flex items-center justify-center mb-4"
+                          style={{ background:"var(--sand)" }}>
+                          <Icon name={b.icon} size={20} style={{ color:"var(--cyan)" }} fallback="Check" />
+                        </div>
+                        <p className="font-oswald text-base font-medium mb-2" style={{ color:"var(--ink)" }}>{b.title}</p>
+                        <p className="font-plex text-xs leading-relaxed" style={{ color:"#6b7f94", fontWeight:300 }}>{b.text}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Applications */}
+                <div>
+                  <div className="flex items-center gap-3 mb-8">
+                    <div className="h-px w-8" style={{ background:"var(--cyan)" }} />
+                    <span className="font-oswald text-sm tracking-[0.15em] uppercase" style={{ color:"var(--ink)" }}>
+                      Область применения
+                    </span>
+                  </div>
+                  <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {info.applications.map((a, i) => (
+                      <div key={i} className="flex gap-4 p-5 bg-white"
+                        style={{ border:"1px solid #e0e6ef", borderLeft:"3px solid var(--cyan)" }}>
+                        <div>
+                          <p className="font-plex text-sm font-semibold mb-1" style={{ color:"var(--ink)" }}>{a.label}</p>
+                          <p className="font-plex text-xs leading-relaxed" style={{ color:"#6b7f94", fontWeight:300 }}>{a.desc}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* FAQ */}
+                <div>
+                  <div className="flex items-center gap-3 mb-8">
+                    <div className="h-px w-8" style={{ background:"var(--cyan)" }} />
+                    <span className="font-oswald text-sm tracking-[0.15em] uppercase" style={{ color:"var(--ink)" }}>
+                      Вопросы и ответы
+                    </span>
+                  </div>
+                  <div className="space-y-2">
+                    {info.faq.map((f, i) => (
+                      <div key={i} style={{ border:"1px solid #e0e6ef", background:"white" }}>
+                        <button
+                          onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                          className="w-full flex items-center justify-between px-7 py-5 text-left transition-colors"
+                          style={{ background: openFaq === i ? "var(--sand)" : "white" }}>
+                          <span className="font-plex text-sm font-semibold pr-8" style={{ color:"var(--ink)" }}>{f.q}</span>
+                          <div className="shrink-0 w-7 h-7 flex items-center justify-center transition-transform"
+                            style={{
+                              border:"1px solid #dde4ed",
+                              transform: openFaq === i ? "rotate(45deg)" : "rotate(0deg)",
+                            }}>
+                            <Icon name="Plus" size={14} style={{ color:"var(--cyan)" }} />
+                          </div>
+                        </button>
+                        {openFaq === i && (
+                          <div className="px-7 pb-6" style={{ borderTop:"1px solid #e0e6ef", background:"var(--sand)" }}>
+                            <p className="font-plex text-sm leading-relaxed pt-4" style={{ color:"#4a5568", fontWeight:300 }}>
+                              {f.a}
+                            </p>
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+              </div>
+            );
+          })()}
 
           {/* ── RELATED ── */}
           {related.length > 0 && (
