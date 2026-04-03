@@ -15,6 +15,8 @@ export default function NavbarSection({ active, menu, setMenu, go }: Props) {
   const handleNav = (id: string) => {
     if (id === "equipment") {
       navigate("/catalog");
+    } else if (id === "consumables") {
+      navigate("/consumables");
     } else {
       go(id);
     }

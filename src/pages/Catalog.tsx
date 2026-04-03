@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Icon from "@/components/ui/icon";
-import { CATEGORIES, CONSUMABLES, EQUIPMENT, NAV } from "@/components/lab/data";
+import { CATEGORIES, EQUIPMENT, NAV } from "@/components/lab/data";
 
 export default function Catalog() {
   const [cat,  setCat]  = useState("Все");
@@ -151,56 +151,27 @@ export default function Catalog() {
         </div>
       </section>
 
-      {/* ── CONSUMABLES ── */}
-      <section id="consumables" className="py-28" style={{ background:"var(--ink)" }}>
-        <div className="max-w-screen-xl mx-auto px-6">
-          <div className="flex flex-col lg:flex-row gap-16">
-            <div className="lg:w-80 shrink-0">
-              <div className="flex items-center gap-3 mb-5">
-                <div className="h-px w-8" style={{ background:"var(--cyan)" }} />
-                <span className="font-plex text-xs tracking-[0.2em] uppercase" style={{ color:"var(--cyan)" }}>Расходники</span>
-              </div>
-              <h2 className="font-oswald font-semibold text-white leading-tight mb-6"
-                style={{ fontSize:"clamp(2rem,3vw,2.8rem)" }}>
-                РАСХОДНЫЕ<br />МАТЕРИАЛЫ
-              </h2>
-              <p className="font-plex text-sm leading-relaxed" style={{ color:"#6b8299", fontWeight:300 }}>
-                Совместимые расходники к нашему и стороннему оборудованию. Склад. Поставка от 1 упаковки.
-              </p>
-              <button onClick={() => navigate("/#contacts")}
-                className="mt-8 flex items-center gap-2 font-plex text-xs uppercase tracking-wider py-3.5 px-7 transition-all"
-                style={{ border:"1px solid rgba(26,158,192,0.5)", color:"var(--cyan)" }}>
-                Уточнить наличие
-                <Icon name="ArrowRight" size={14} />
-              </button>
-            </div>
-
-            <div className="flex-1" style={{ borderTop:"1px solid rgba(255,255,255,0.07)" }}>
-              {CONSUMABLES.map((c,i) => (
-                <div key={i} className="grid grid-cols-2 lg:grid-cols-4 gap-4 py-6"
-                  style={{ borderBottom:"1px solid rgba(255,255,255,0.07)" }}>
-                  <div>
-                    <p className="font-plex text-xs uppercase tracking-wider mb-1.5" style={{ color:"rgba(255,255,255,0.3)" }}>Наименование</p>
-                    <p className="font-oswald text-base font-medium text-white">{c.name}</p>
-                  </div>
-                  <div>
-                    <p className="font-plex text-xs uppercase tracking-wider mb-1.5" style={{ color:"rgba(255,255,255,0.3)" }}>Материал</p>
-                    <p className="font-plex text-sm text-gray-300" style={{ fontWeight:300 }}>{c.mat}</p>
-                  </div>
-                  <div>
-                    <p className="font-plex text-xs uppercase tracking-wider mb-1.5" style={{ color:"rgba(255,255,255,0.3)" }}>Размеры</p>
-                    <p className="font-plex text-sm text-gray-300" style={{ fontWeight:300 }}>{c.sizes}</p>
-                  </div>
-                  <div>
-                    <p className="font-plex text-xs uppercase tracking-wider mb-1.5" style={{ color:"rgba(255,255,255,0.3)" }}>Фасовка</p>
-                    <p className="font-plex text-sm font-semibold" style={{ color:"var(--cyan)" }}>{c.pack}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
+      {/* ── CONSUMABLES PROMO ── */}
+      <div style={{ background:"var(--ink-mid)", borderTop:"1px solid rgba(255,255,255,0.06)" }}>
+        <div className="max-w-screen-xl mx-auto px-6 py-14 flex flex-col sm:flex-row items-start sm:items-center gap-8">
+          <div className="w-12 h-12 flex items-center justify-center shrink-0"
+            style={{ border:"1px solid rgba(26,158,192,0.3)" }}>
+            <Icon name="Package" size={22} style={{ color:"var(--cyan)" }} />
           </div>
+          <div className="flex-1">
+            <p className="font-oswald text-xl text-white font-medium mb-1">Расходные материалы</p>
+            <p className="font-plex text-sm" style={{ color:"#6b8299", fontWeight:300 }}>
+              Стаканы ВК8, флюсы для сплавления, кольца, борная кислота и антисмачивающие агенты — всё в наличии на складе.
+            </p>
+          </div>
+          <button onClick={() => navigate("/consumables")}
+            className="flex items-center gap-2 font-plex text-xs font-semibold uppercase tracking-wider px-7 py-3.5 transition-all hover:brightness-110 shrink-0"
+            style={{ background:"var(--cyan)", color:"#fff" }}>
+            Перейти в раздел
+            <Icon name="ArrowRight" size={14} />
+          </button>
         </div>
-      </section>
+      </div>
 
       {/* ── FOOTER MINIMAL ── */}
       <footer style={{ background:"var(--ink)", borderTop:"1px solid rgba(255,255,255,0.05)" }}>
