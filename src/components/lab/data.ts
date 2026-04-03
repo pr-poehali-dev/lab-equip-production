@@ -9,13 +9,24 @@ export const NAV = [
 
 export const CATEGORIES = ["Все", "Вибрационные мельницы", "Прессы", "Шлифовальные станки", "Системы сплавления", "Пресс-формы", "Размольные гарнитуры"];
 
+const CDN = "https://cdn.poehali.dev/projects/f93cee9a-1f9f-4b49-8a11-3f50d717fcc9/files/";
 const IMG = {
-  mills:    "https://cdn.poehali.dev/projects/f93cee9a-1f9f-4b49-8a11-3f50d717fcc9/files/8892ae60-227f-4883-a9fc-528b7362ed72.jpg",
-  presses:  "https://cdn.poehali.dev/projects/f93cee9a-1f9f-4b49-8a11-3f50d717fcc9/files/f73bc152-00a6-4da2-b27f-56518bc9a5a5.jpg",
-  grinders: "https://cdn.poehali.dev/projects/f93cee9a-1f9f-4b49-8a11-3f50d717fcc9/files/45b26bbb-9bcc-4b91-90c0-2742d7ebfd25.jpg",
-  fusion:   "https://cdn.poehali.dev/projects/f93cee9a-1f9f-4b49-8a11-3f50d717fcc9/files/062fa5ac-5b82-4bb1-874e-84f196f14009.jpg",
-  dies:     "https://cdn.poehali.dev/projects/f93cee9a-1f9f-4b49-8a11-3f50d717fcc9/files/baef5051-21cb-4e8b-baa5-8f0ae47dd63d.jpg",
-  jars:     "https://cdn.poehali.dev/projects/f93cee9a-1f9f-4b49-8a11-3f50d717fcc9/files/230dd38e-46a4-43cc-94a6-04c70fea7fbd.jpg",
+  vm1n:  CDN + "302272c9-74ca-4ffe-96a1-7875c338e09e.jpg",
+  vm3s:  CDN + "c960284c-df0f-4bae-8b43-1a627a1bd3fd.jpg",
+  vm2d:  CDN + "8d3b517c-12c0-469a-aba4-7d6cc9b9d131.jpg",
+  pp10a: CDN + "1ac3a7db-7de2-4034-948b-bd7fc4462b35.jpg",
+  pp25a: CDN + "cfa22b16-ad10-43c9-b3e2-b3369ad918b5.jpg",
+  pp40m: CDN + "c96ad559-d571-4a7a-8fd6-831a880a4494.jpg",
+  ss300: CDN + "a0b4a432-c1a1-4f74-a24c-e4a97f4aa2f4.jpg",
+  ss250: CDN + "63e15f19-168e-4ec2-a70b-04737f4cb22e.jpg",
+  ss6b:  CDN + "d88a0c31-39e0-4dc1-a256-d5a076ac85a4.jpg",
+  ss2b:  CDN + "7e4f96f5-e17e-4180-86de-5430e1a180fc.jpg",
+  pfs32: CDN + "89748e5c-9aba-43a9-bf9c-60f12886e659.jpg",
+  pfk40: CDN + "098831eb-15b9-46a7-91ab-e47af3ee3a8f.jpg",
+  rgvk8: CDN + "51154bfa-e3f6-4abe-80e7-cd9dbaadd157.jpg",
+  rgst:  CDN + "18b3f0f0-f99d-4b87-b6c2-14572e7efca9.jpg",
+  rgal:  CDN + "185ceb36-3a79-496d-9786-f8d508d6b4e9.jpg",
+  rgzr:  CDN + "43cb0f64-42f6-4845-a21f-5e9f83a09355.jpg",
 };
 
 export interface Equipment {
@@ -32,7 +43,7 @@ export const EQUIPMENT: Equipment[] = [
     id: 1,
     category: "Вибрационные мельницы",
     model: "ВМ-1Н",
-    image: IMG.mills,
+    image: IMG.vm1n,
     desc: "Настольная вибрационная мельница для тонкого и сверхтонкого измельчения проб горных пород, руд, цементов, строительных материалов и сплавов.",
     specs: {
       "Тип": "Настольная",
@@ -47,7 +58,7 @@ export const EQUIPMENT: Equipment[] = [
     id: 2,
     category: "Вибрационные мельницы",
     model: "ВМ-3С",
-    image: IMG.mills,
+    image: IMG.vm3s,
     desc: "Стационарная вибрационная мельница увеличенной производительности. Предназначена для серийной пробоподготовки в заводских и исследовательских лабораториях.",
     specs: {
       "Тип": "Стационарная",
@@ -62,7 +73,7 @@ export const EQUIPMENT: Equipment[] = [
     id: 3,
     category: "Вибрационные мельницы",
     model: "ВМ-2Д",
-    image: IMG.mills,
+    image: IMG.vm2d,
     desc: "Двухпозиционная настольная мельница для одновременного измельчения двух независимых проб. Сокращает время пробоподготовки вдвое.",
     specs: {
       "Тип": "Настольная, 2 позиции",
@@ -77,7 +88,7 @@ export const EQUIPMENT: Equipment[] = [
     id: 4,
     category: "Прессы",
     model: "ПП-10А",
-    image: IMG.presses,
+    image: IMG.pp10a,
     desc: "Автоматический лабораторный пресс для таблетирования порошков под рентгенофлуоресцентный и рентгеноструктурный анализ. Усилие до 10 тонн.",
     specs: {
       "Макс. усилие прессования": "10 т (98 кН)",
@@ -92,7 +103,7 @@ export const EQUIPMENT: Equipment[] = [
     id: 5,
     category: "Прессы",
     model: "ПП-25А",
-    image: IMG.presses,
+    image: IMG.pp25a,
     desc: "Высокомощный автоматический пресс для таблетирования с усилием до 25 тонн. Обеспечивает воспроизводимую плотность таблеток для точного РФА.",
     specs: {
       "Макс. усилие прессования": "25 т (245 кН)",
@@ -107,7 +118,7 @@ export const EQUIPMENT: Equipment[] = [
     id: 6,
     category: "Прессы",
     model: "ПП-40М",
-    image: IMG.presses,
+    image: IMG.pp40m,
     desc: "Мощный пресс с ручным управлением и манометрическим контролем усилия. Оптимален для лабораторий с небольшим объёмом таблетирования.",
     specs: {
       "Макс. усилие прессования": "40 т (392 кН)",
@@ -122,7 +133,7 @@ export const EQUIPMENT: Equipment[] = [
     id: 7,
     category: "Шлифовальные станки",
     model: "ШС-300",
-    image: IMG.grinders,
+    image: IMG.ss300,
     desc: "Шлифовальный станок для подготовки поверхности металлических образцов перед анализом методами ОЭС и РФА. Рабочий диск Ø 300 мм.",
     specs: {
       "Диаметр шлифовального диска": "300 мм",
@@ -137,7 +148,7 @@ export const EQUIPMENT: Equipment[] = [
     id: 8,
     category: "Шлифовальные станки",
     model: "ШС-250П",
-    image: IMG.grinders,
+    image: IMG.ss250,
     desc: "Компактный полуавтоматический шлифовальный станок с программируемым давлением прижима образца. Обеспечивает высокую воспроизводимость обработки.",
     specs: {
       "Диаметр шлифовального диска": "250 мм",
@@ -152,7 +163,7 @@ export const EQUIPMENT: Equipment[] = [
     id: 9,
     category: "Системы сплавления",
     model: "СС-6Б",
-    image: IMG.fusion,
+    image: IMG.ss6b,
     desc: "Лабораторная система боратного сплавления на 6 позиций для приготовления стёкол и гранул под РФА. Индукционный нагрев, равномерное распределение температуры.",
     specs: {
       "Кол-во позиций": "6",
@@ -167,7 +178,7 @@ export const EQUIPMENT: Equipment[] = [
     id: 10,
     category: "Системы сплавления",
     model: "СС-2Б",
-    image: IMG.fusion,
+    image: IMG.ss2b,
     desc: "Компактная двухпозиционная установка боратного сплавления для исследовательских лабораторий с небольшим объёмом анализов.",
     specs: {
       "Кол-во позиций": "2",
@@ -182,7 +193,7 @@ export const EQUIPMENT: Equipment[] = [
     id: 11,
     category: "Пресс-формы",
     model: "ПФС-32",
-    image: IMG.dies,
+    image: IMG.pfs32,
     desc: "Стальная пресс-форма для свободного прессования таблеток диаметром 32 мм. Совместима с прессами серии ПП. Твёрдосплавное покрытие рабочих поверхностей.",
     specs: {
       "Диаметр таблетки": "32 мм",
@@ -197,7 +208,7 @@ export const EQUIPMENT: Equipment[] = [
     id: 12,
     category: "Пресс-формы",
     model: "ПФК-40",
-    image: IMG.dies,
+    image: IMG.pfk40,
     desc: "Пресс-форма для запрессовки порошков в алюминиевые кольца диаметром 40 мм. Обеспечивает механически прочную таблетку с ровной поверхностью.",
     specs: {
       "Диаметр таблетки": "40 мм",
@@ -212,7 +223,7 @@ export const EQUIPMENT: Equipment[] = [
     id: 13,
     category: "Размольные гарнитуры",
     model: "РГ-ВК8",
-    image: IMG.jars,
+    image: IMG.rgvk8,
     desc: "Размольная гарнитура из карбида вольфрама (ВК8): стакан + крышка + мелющий диск и кольцо. Для измельчения твёрдых и абразивных материалов — руд, карбидов, керамики.",
     specs: {
       "Материал": "Карбид вольфрама ВК8",
@@ -227,7 +238,7 @@ export const EQUIPMENT: Equipment[] = [
     id: 14,
     category: "Размольные гарнитуры",
     model: "РГ-СТ",
-    image: IMG.jars,
+    image: IMG.rgst,
     desc: "Размольная гарнитура из закалённой инструментальной стали. Универсальный выбор для измельчения горных пород, цементов, шлаков и строительных материалов.",
     specs: {
       "Материал": "Инструментальная сталь (HRC 60–62)",
@@ -242,7 +253,7 @@ export const EQUIPMENT: Equipment[] = [
     id: 15,
     category: "Размольные гарнитуры",
     model: "РГ-Al₂O₃",
-    image: IMG.jars,
+    image: IMG.rgal,
     desc: "Размольная гарнитура из оксида алюминия (корунд). Оптимальна для проб, чувствительных к загрязнению металлами — при анализе на Fe, W, Co недопустимо.",
     specs: {
       "Материал": "Оксид алюминия Al₂O₃ (99.7%)",
@@ -257,7 +268,7 @@ export const EQUIPMENT: Equipment[] = [
     id: 16,
     category: "Размольные гарнитуры",
     model: "РГ-ZrO₂",
-    image: IMG.jars,
+    image: IMG.rgzr,
     desc: "Размольная гарнитура из диоксида циркония. Наименьшее загрязнение среди всех материалов гарнитур. Рекомендуется для высокочистых и биологических проб.",
     specs: {
       "Материал": "Диоксид циркония ZrO₂ (стабилизированный)",

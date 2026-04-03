@@ -1,12 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Icon from "@/components/ui/icon";
-import { CATEGORIES, CONSUMABLES, EQUIPMENT, Equipment, NAV } from "@/components/lab/data";
+import { CATEGORIES, CONSUMABLES, EQUIPMENT, NAV } from "@/components/lab/data";
 
 export default function Catalog() {
-  const [cat,      setCat]      = useState("Все");
-  const [selected, setSelected] = useState<Equipment | null>(null);
-  const [menu,     setMenu]     = useState(false);
+  const [cat,  setCat]  = useState("Все");
+  const [menu, setMenu] = useState(false);
   const navigate = useNavigate();
 
   const filtered = cat === "Все" ? EQUIPMENT : EQUIPMENT.filter(e => e.category === cat);
@@ -107,7 +106,7 @@ export default function Catalog() {
           {/* Cards */}
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
             {filtered.map(item => (
-              <div key={item.id} onClick={() => setSelected(item)}
+              <div key={item.id} onClick={() => navigate(`/catalog/${item.id}`)}
                 className="group cursor-pointer bg-white flex flex-col transition-all duration-200 hover:-translate-y-1 hover:shadow-xl"
                 style={{ border:"1px solid #e0e6ef" }}>
 
@@ -143,7 +142,7 @@ export default function Catalog() {
                     style={{ border:"1px solid var(--cyan)", color:"var(--cyan)" }}
                     onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background="var(--cyan)"; (e.currentTarget as HTMLElement).style.color="#fff"; }}
                     onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background="transparent"; (e.currentTarget as HTMLElement).style.color="var(--cyan)"; }}>
-                    Все характеристики
+                    Подробнее
                   </button>
                 </div>
               </div>
@@ -151,59 +150,6 @@ export default function Catalog() {
           </div>
         </div>
       </section>
-
-      {/* ── MODAL ── */}
-      {selected && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4"
-          style={{ background:"rgba(13,21,32,0.8)", backdropFilter:"blur(4px)" }}
-          onClick={() => setSelected(null)}>
-          <div className="bg-white w-full max-w-xl shadow-2xl overflow-hidden" onClick={e => e.stopPropagation()}
-            style={{ maxHeight:"90svh", overflowY:"auto" }}>
-            {/* Image */}
-            <div className="relative" style={{ aspectRatio:"16/7" }}>
-              <img
-                src={selected.image}
-                alt={selected.model}
-                className="w-full h-full object-cover"
-              />
-              <div className="absolute inset-0" style={{ background:"linear-gradient(180deg, transparent 30%, rgba(13,21,32,0.85) 100%)" }} />
-              <div className="absolute bottom-0 left-0 right-0 px-8 py-6 flex items-end justify-between">
-                <div>
-                  <p className="font-plex text-xs tracking-[0.2em] uppercase mb-1" style={{ color:"var(--cyan)" }}>{selected.category}</p>
-                  <h3 className="font-oswald text-3xl font-medium text-white">{selected.model}</h3>
-                </div>
-                <button onClick={() => setSelected(null)} className="text-white/50 hover:text-white transition-colors mb-1">
-                  <Icon name="X" size={20} />
-                </button>
-              </div>
-            </div>
-            <div className="p-8">
-              <p className="font-plex text-sm mb-8" style={{ color:"#5a6e82", lineHeight:1.7, fontWeight:300 }}>{selected.desc}</p>
-              <p className="font-oswald text-sm tracking-[0.15em] uppercase mb-5" style={{ color:"var(--ink)" }}>Технические характеристики</p>
-              <div>
-                {Object.entries(selected.specs).map(([k,v]) => (
-                  <div key={k} className="flex justify-between py-3.5" style={{ borderBottom:"1px solid #edf0f5" }}>
-                    <span className="font-plex text-sm" style={{ color:"#8096ad" }}>{k}</span>
-                    <span className="font-plex text-sm font-semibold" style={{ color:"var(--ink)" }}>{v}</span>
-                  </div>
-                ))}
-              </div>
-              <div className="flex gap-3 mt-8">
-                <button onClick={() => { setSelected(null); navigate("/#contacts"); }}
-                  className="flex-1 font-plex text-xs font-semibold uppercase tracking-wider py-4 transition-all hover:brightness-110"
-                  style={{ background:"var(--cyan)", color:"#fff" }}>
-                  Запросить цену
-                </button>
-                <button onClick={() => setSelected(null)}
-                  className="flex-1 font-plex text-xs font-medium uppercase tracking-wider py-4 transition-all"
-                  style={{ border:"1px solid #c8d0db", color:"#5a6e82" }}>
-                  Закрыть
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* ── CONSUMABLES ── */}
       <section id="consumables" className="py-28" style={{ background:"var(--ink)" }}>
