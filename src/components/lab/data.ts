@@ -27,6 +27,15 @@ const IMG = {
   rgst:  CDN + "18b3f0f0-f99d-4b87-b6c2-14572e7efca9.jpg",
   rgal:  CDN + "185ceb36-3a79-496d-9786-f8d508d6b4e9.jpg",
   rgzr:  CDN + "43cb0f64-42f6-4845-a21f-5e9f83a09355.jpg",
+  // gallery extras
+  g_mill_panel:   CDN + "12a9a3f1-22e3-4d19-9bcd-01b5f03800d7.jpg",
+  g_mill_load:    CDN + "28488f22-8659-4476-bf6b-734ed83d090e.jpg",
+  g_mill_powder:  CDN + "a1e42bd0-8d74-4531-86f5-051a04077ae1.jpg",
+  g_press_gauge:  CDN + "c223e050-2410-4e56-b5c7-62c080d313bc.jpg",
+  g_press_pellet: CDN + "8b63ca6b-5d1a-4fa3-9636-a5edfc9f28ec.jpg",
+  g_grind_action: CDN + "c0f594d6-043e-4167-b534-7b7b9bfb1849.jpg",
+  g_fusion_glow:  CDN + "58b32740-40b4-4464-94d1-238d5b41b7e1.jpg",
+  g_fusion_pour:  CDN + "cc0b51ee-15af-4982-b4ca-a951eee5a1c8.jpg",
 };
 
 export interface Equipment {
@@ -36,6 +45,7 @@ export interface Equipment {
   desc: string;
   specs: Record<string, string>;
   image: string;
+  gallery?: string[];
 }
 
 export const EQUIPMENT: Equipment[] = [
@@ -44,6 +54,7 @@ export const EQUIPMENT: Equipment[] = [
     category: "Вибрационные мельницы",
     model: "ВМ-1Н",
     image: IMG.vm1n,
+    gallery: [IMG.vm1n, IMG.g_mill_panel, IMG.g_mill_load, IMG.g_mill_powder],
     desc: "Настольная вибрационная мельница для тонкого и сверхтонкого измельчения проб горных пород, руд, цементов, строительных материалов и сплавов.",
     specs: {
       "Тип": "Настольная",
@@ -59,6 +70,7 @@ export const EQUIPMENT: Equipment[] = [
     category: "Вибрационные мельницы",
     model: "ВМ-3С",
     image: IMG.vm3s,
+    gallery: [IMG.vm3s, IMG.g_mill_panel, IMG.g_mill_load, IMG.g_mill_powder],
     desc: "Стационарная вибрационная мельница увеличенной производительности. Предназначена для серийной пробоподготовки в заводских и исследовательских лабораториях.",
     specs: {
       "Тип": "Стационарная",
@@ -74,6 +86,7 @@ export const EQUIPMENT: Equipment[] = [
     category: "Вибрационные мельницы",
     model: "ВМ-2Д",
     image: IMG.vm2d,
+    gallery: [IMG.vm2d, IMG.g_mill_panel, IMG.g_mill_load, IMG.g_mill_powder],
     desc: "Двухпозиционная настольная мельница для одновременного измельчения двух независимых проб. Сокращает время пробоподготовки вдвое.",
     specs: {
       "Тип": "Настольная, 2 позиции",
@@ -89,6 +102,7 @@ export const EQUIPMENT: Equipment[] = [
     category: "Прессы",
     model: "ПП-10А",
     image: IMG.pp10a,
+    gallery: [IMG.pp10a, IMG.g_press_gauge, IMG.g_press_pellet],
     desc: "Автоматический лабораторный пресс для таблетирования порошков под рентгенофлуоресцентный и рентгеноструктурный анализ. Усилие до 10 тонн.",
     specs: {
       "Макс. усилие прессования": "10 т (98 кН)",
@@ -104,6 +118,7 @@ export const EQUIPMENT: Equipment[] = [
     category: "Прессы",
     model: "ПП-25А",
     image: IMG.pp25a,
+    gallery: [IMG.pp25a, IMG.g_press_gauge, IMG.g_press_pellet],
     desc: "Высокомощный автоматический пресс для таблетирования с усилием до 25 тонн. Обеспечивает воспроизводимую плотность таблеток для точного РФА.",
     specs: {
       "Макс. усилие прессования": "25 т (245 кН)",
@@ -119,6 +134,7 @@ export const EQUIPMENT: Equipment[] = [
     category: "Прессы",
     model: "ПП-40М",
     image: IMG.pp40m,
+    gallery: [IMG.pp40m, IMG.g_press_gauge, IMG.g_press_pellet],
     desc: "Мощный пресс с ручным управлением и манометрическим контролем усилия. Оптимален для лабораторий с небольшим объёмом таблетирования.",
     specs: {
       "Макс. усилие прессования": "40 т (392 кН)",
@@ -134,6 +150,7 @@ export const EQUIPMENT: Equipment[] = [
     category: "Шлифовальные станки",
     model: "ШС-300",
     image: IMG.ss300,
+    gallery: [IMG.ss300, IMG.g_grind_action],
     desc: "Шлифовальный станок для подготовки поверхности металлических образцов перед анализом методами ОЭС и РФА. Рабочий диск Ø 300 мм.",
     specs: {
       "Диаметр шлифовального диска": "300 мм",
@@ -149,6 +166,7 @@ export const EQUIPMENT: Equipment[] = [
     category: "Шлифовальные станки",
     model: "ШС-250П",
     image: IMG.ss250,
+    gallery: [IMG.ss250, IMG.g_grind_action],
     desc: "Компактный полуавтоматический шлифовальный станок с программируемым давлением прижима образца. Обеспечивает высокую воспроизводимость обработки.",
     specs: {
       "Диаметр шлифовального диска": "250 мм",
@@ -164,6 +182,7 @@ export const EQUIPMENT: Equipment[] = [
     category: "Системы сплавления",
     model: "СС-6Б",
     image: IMG.ss6b,
+    gallery: [IMG.ss6b, IMG.g_fusion_glow, IMG.g_fusion_pour],
     desc: "Лабораторная система боратного сплавления на 6 позиций для приготовления стёкол и гранул под РФА. Индукционный нагрев, равномерное распределение температуры.",
     specs: {
       "Кол-во позиций": "6",
@@ -179,6 +198,7 @@ export const EQUIPMENT: Equipment[] = [
     category: "Системы сплавления",
     model: "СС-2Б",
     image: IMG.ss2b,
+    gallery: [IMG.ss2b, IMG.g_fusion_glow, IMG.g_fusion_pour],
     desc: "Компактная двухпозиционная установка боратного сплавления для исследовательских лабораторий с небольшим объёмом анализов.",
     specs: {
       "Кол-во позиций": "2",

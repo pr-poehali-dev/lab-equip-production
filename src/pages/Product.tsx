@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Icon from "@/components/ui/icon";
 import { EQUIPMENT, NAV } from "@/components/lab/data";
@@ -6,6 +7,7 @@ export default function Product() {
   const { id } = useParams();
   const navigate = useNavigate();
   const item = EQUIPMENT.find(e => e.id === Number(id));
+  const [activeImg, setActiveImg] = useState(0);
 
   if (!item) {
     return (
@@ -20,7 +22,11 @@ export default function Product() {
     );
   }
 
+  const gallery = item.gallery && item.gallery.length > 0 ? item.gallery : [item.image];
   const related = EQUIPMENT.filter(e => e.category === item.category && e.id !== item.id).slice(0, 3);
+
+  const prev = () => setActiveImg(i => (i - 1 + gallery.length) % gallery.length);
+  const next = () => setActiveImg(i => (i + 1) % gallery.length);
 
   return (
     <div className="min-h-screen" style={{ fontFamily:"'IBM Plex Sans', sans-serif", background:"var(--warm-white)" }}>
@@ -36,7 +42,8 @@ export default function Product() {
           </button>
           <nav className="hidden lg:flex items-center gap-0">
             {NAV.map(n => (
-              <button key={n.id} onClick={() => n.id === "equipment" ? navigate("/catalog") : navigate(`/#${n.id}`)}
+              <button key={n.id}
+                onClick={() => n.id === "equipment" ? navigate("/catalog") : n.id === "consumables" ? navigate("/consumables") : navigate(`/#${n.id}`)}
                 style={{ color: n.id === "equipment" ? "var(--cyan-bright)" : "#9fb3c8" }}
                 className="font-plex text-xs tracking-wider px-4 py-4 hover:text-white transition-colors uppercase">
                 {n.label}
@@ -51,153 +58,207 @@ export default function Product() {
         </div>
       </header>
 
-      {/* ── HERO IMAGE ── */}
-      <div className="pt-14 relative overflow-hidden" style={{ background:"var(--ink)" }}>
-        {/* breadcrumb */}
-        <div className="absolute top-[3.5rem] left-0 right-0 z-10 max-w-screen-xl mx-auto px-6 py-4 flex items-center gap-2">
-          <button onClick={() => navigate("/")} className="font-plex text-xs transition-colors"
-            style={{ color:"#4a6278" }}
-            onMouseEnter={e => (e.currentTarget.style.color = "var(--cyan)")}
-            onMouseLeave={e => (e.currentTarget.style.color = "#4a6278")}>
-            Главная
-          </button>
-          <Icon name="ChevronRight" size={12} style={{ color:"#334d64" }} />
-          <button onClick={() => navigate("/catalog")} className="font-plex text-xs transition-colors"
-            style={{ color:"#4a6278" }}
-            onMouseEnter={e => (e.currentTarget.style.color = "var(--cyan)")}
-            onMouseLeave={e => (e.currentTarget.style.color = "#4a6278")}>
-            Каталог
-          </button>
-          <Icon name="ChevronRight" size={12} style={{ color:"#334d64" }} />
-          <span className="font-plex text-xs" style={{ color:"var(--cyan)" }}>{item.model}</span>
-        </div>
+      {/* ── MAIN CONTENT ── */}
+      <div className="pt-14">
+        <div className="max-w-screen-xl mx-auto px-6 py-10">
 
-        <div className="relative" style={{ aspectRatio:"21/9", maxHeight:"520px" }}>
-          <img src={item.image} alt={item.model} className="w-full h-full object-cover opacity-60" />
-          <div className="absolute inset-0" style={{ background:"linear-gradient(90deg, var(--ink) 0%, rgba(13,21,32,0.6) 50%, transparent 100%)" }} />
-          <div className="absolute inset-0 grid-bg opacity-30" />
-        </div>
-
-        {/* Title overlay */}
-        <div className="absolute inset-0 flex items-end">
-          <div className="max-w-screen-xl mx-auto px-6 pb-12 w-full">
-            <div className="flex items-center gap-3 mb-3">
-              <div className="h-px w-8" style={{ background:"var(--cyan)" }} />
-              <span className="font-plex text-xs tracking-[0.2em] uppercase" style={{ color:"var(--cyan)" }}>{item.category}</span>
-            </div>
-            <h1 className="font-oswald font-semibold text-white" style={{ fontSize:"clamp(2.5rem,6vw,5rem)", lineHeight:1 }}>
-              {item.model}
-            </h1>
-          </div>
-        </div>
-      </div>
-
-      {/* ── CONTENT ── */}
-      <div className="max-w-screen-xl mx-auto px-6 py-16">
-        <div className="grid lg:grid-cols-3 gap-12">
-
-          {/* Left: description + specs */}
-          <div className="lg:col-span-2">
-            <p className="font-plex text-base leading-relaxed mb-12" style={{ color:"#4a5568", fontWeight:300 }}>
-              {item.desc}
-            </p>
-
-            {/* Specs table */}
-            <div className="flex items-center gap-3 mb-6">
-              <div className="h-px w-8" style={{ background:"var(--cyan)" }} />
-              <span className="font-oswald text-sm tracking-[0.15em] uppercase" style={{ color:"var(--ink)" }}>
-                Технические характеристики
-              </span>
-            </div>
-            <div style={{ border:"1px solid #e0e6ef" }}>
-              {Object.entries(item.specs).map(([k, v], i) => (
-                <div key={k} className="flex"
-                  style={{ borderBottom: i < Object.entries(item.specs).length - 1 ? "1px solid #e0e6ef" : "none" }}>
-                  <div className="w-1/2 px-6 py-4" style={{ background:"var(--sand)", borderRight:"1px solid #e0e6ef" }}>
-                    <span className="font-plex text-sm" style={{ color:"#6b7f94" }}>{k}</span>
-                  </div>
-                  <div className="w-1/2 px-6 py-4">
-                    <span className="font-plex text-sm font-semibold" style={{ color:"var(--ink)" }}>{v}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
+          {/* Breadcrumb */}
+          <div className="flex items-center gap-2 mb-8">
+            <button onClick={() => navigate("/")} className="font-plex text-xs transition-colors"
+              style={{ color:"#9fb3c8" }}
+              onMouseEnter={e => (e.currentTarget.style.color = "var(--cyan)")}
+              onMouseLeave={e => (e.currentTarget.style.color = "#9fb3c8")}>
+              Главная
+            </button>
+            <Icon name="ChevronRight" size={12} style={{ color:"#c8d4de" }} />
+            <button onClick={() => navigate("/catalog")} className="font-plex text-xs transition-colors"
+              style={{ color:"#9fb3c8" }}
+              onMouseEnter={e => (e.currentTarget.style.color = "var(--cyan)")}
+              onMouseLeave={e => (e.currentTarget.style.color = "#9fb3c8")}>
+              Каталог
+            </button>
+            <Icon name="ChevronRight" size={12} style={{ color:"#c8d4de" }} />
+            <span className="font-plex text-xs" style={{ color:"var(--ink)" }}>{item.model}</span>
           </div>
 
-          {/* Right: CTA card */}
-          <div className="lg:col-span-1">
-            <div className="sticky top-20">
-              <div style={{ border:"1px solid #e0e6ef", borderTop:"3px solid var(--cyan)" }}>
-                <div className="p-7" style={{ background:"white" }}>
-                  <p className="font-oswald text-lg font-semibold mb-1" style={{ color:"var(--ink)" }}>
-                    Запросить коммерческое предложение
-                  </p>
-                  <p className="font-plex text-xs mb-6" style={{ color:"#8096ad", fontWeight:300 }}>
-                    Ответим в течение 4 рабочих часов. Укажем актуальную цену и сроки поставки.
-                  </p>
-                  <button onClick={() => navigate("/#contacts")}
-                    className="w-full font-plex text-xs font-semibold uppercase tracking-wider py-4 mb-3 transition-all hover:brightness-110"
-                    style={{ background:"var(--cyan)", color:"#fff" }}>
-                    Запросить КП
-                  </button>
-                  <button onClick={() => navigate("/catalog")}
-                    className="w-full font-plex text-xs font-medium uppercase tracking-wider py-4 transition-all"
-                    style={{ border:"1px solid #dde4ed", color:"#6b7f94" }}
-                    onMouseEnter={e => (e.currentTarget.style.borderColor = "var(--ink)")}
-                    onMouseLeave={e => (e.currentTarget.style.borderColor = "#dde4ed")}>
-                    ← Назад в каталог
-                  </button>
+          <div className="grid lg:grid-cols-12 gap-10">
+
+            {/* ── LEFT: GALLERY ── */}
+            <div className="lg:col-span-7">
+
+              {/* Main image */}
+              <div className="relative overflow-hidden group" style={{ background:"var(--ink)", aspectRatio:"4/3" }}>
+                <img
+                  key={activeImg}
+                  src={gallery[activeImg]}
+                  alt={item.model}
+                  className="w-full h-full object-cover"
+                  style={{ animation:"galleryFade 0.35s ease" }}
+                />
+                {/* strong gradient overlay bottom */}
+                <div className="absolute inset-0 pointer-events-none"
+                  style={{ background:"linear-gradient(180deg, rgba(13,21,32,0.1) 0%, rgba(13,21,32,0.0) 40%, rgba(13,21,32,0.55) 100%)" }} />
+
+                {/* Category + model name over image */}
+                <div className="absolute bottom-0 left-0 right-0 px-7 pb-7">
+                  <span className="font-plex text-xs tracking-[0.2em] uppercase block mb-1" style={{ color:"var(--cyan)" }}>
+                    {item.category}
+                  </span>
+                  <h1 className="font-oswald text-white font-semibold leading-none"
+                    style={{ fontSize:"clamp(2rem,4vw,3rem)" }}>
+                    {item.model}
+                  </h1>
                 </div>
-                <div className="px-7 py-5" style={{ background:"var(--sand)", borderTop:"1px solid #e0e6ef" }}>
-                  <div className="flex items-center gap-3 mb-3">
-                    <Icon name="ShieldCheck" size={15} style={{ color:"var(--cyan)" }} />
-                    <span className="font-plex text-xs" style={{ color:"#4a5568" }}>Гарантия 12 месяцев</span>
+
+                {/* Nav arrows — only if gallery > 1 */}
+                {gallery.length > 1 && (
+                  <>
+                    <button onClick={prev}
+                      className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center transition-all opacity-0 group-hover:opacity-100"
+                      style={{ background:"rgba(13,21,32,0.7)", border:"1px solid rgba(255,255,255,0.15)" }}>
+                      <Icon name="ChevronLeft" size={18} className="text-white" />
+                    </button>
+                    <button onClick={next}
+                      className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center transition-all opacity-0 group-hover:opacity-100"
+                      style={{ background:"rgba(13,21,32,0.7)", border:"1px solid rgba(255,255,255,0.15)" }}>
+                      <Icon name="ChevronRight" size={18} className="text-white" />
+                    </button>
+                    {/* Dots */}
+                    <div className="absolute bottom-4 right-6 flex gap-1.5">
+                      {gallery.map((_, i) => (
+                        <button key={i} onClick={() => setActiveImg(i)}
+                          className="w-1.5 h-1.5 transition-all"
+                          style={{
+                            background: i === activeImg ? "var(--cyan)" : "rgba(255,255,255,0.4)",
+                            borderRadius: "50%",
+                            transform: i === activeImg ? "scale(1.3)" : "scale(1)",
+                          }} />
+                      ))}
+                    </div>
+                  </>
+                )}
+              </div>
+
+              {/* Thumbnails */}
+              {gallery.length > 1 && (
+                <div className="flex gap-3 mt-3">
+                  {gallery.map((src, i) => (
+                    <button key={i} onClick={() => setActiveImg(i)}
+                      className="relative overflow-hidden flex-shrink-0 transition-all"
+                      style={{
+                        width:"80px", height:"60px",
+                        border: i === activeImg ? "2px solid var(--cyan)" : "2px solid transparent",
+                        opacity: i === activeImg ? 1 : 0.55,
+                      }}
+                      onMouseEnter={e => { if (i !== activeImg) (e.currentTarget as HTMLElement).style.opacity = "0.85"; }}
+                      onMouseLeave={e => { if (i !== activeImg) (e.currentTarget as HTMLElement).style.opacity = "0.55"; }}>
+                      <img src={src} alt="" className="w-full h-full object-cover" />
+                    </button>
+                  ))}
+                </div>
+              )}
+
+              {/* Description */}
+              <p className="font-plex text-base leading-relaxed mt-8 mb-10" style={{ color:"#4a5568", fontWeight:300 }}>
+                {item.desc}
+              </p>
+
+              {/* Specs table */}
+              <div className="flex items-center gap-3 mb-5">
+                <div className="h-px w-8" style={{ background:"var(--cyan)" }} />
+                <span className="font-oswald text-sm tracking-[0.15em] uppercase" style={{ color:"var(--ink)" }}>
+                  Технические характеристики
+                </span>
+              </div>
+              <div style={{ border:"1px solid #e0e6ef" }}>
+                {Object.entries(item.specs).map(([k, v], i, arr) => (
+                  <div key={k} className="flex"
+                    style={{ borderBottom: i < arr.length - 1 ? "1px solid #e0e6ef" : "none" }}>
+                    <div className="w-1/2 px-6 py-4" style={{ background:"var(--sand)", borderRight:"1px solid #e0e6ef" }}>
+                      <span className="font-plex text-sm" style={{ color:"#6b7f94" }}>{k}</span>
+                    </div>
+                    <div className="w-1/2 px-6 py-4">
+                      <span className="font-plex text-sm font-semibold" style={{ color:"var(--ink)" }}>{v}</span>
+                    </div>
                   </div>
-                  <div className="flex items-center gap-3 mb-3">
-                    <Icon name="Wrench" size={15} style={{ color:"var(--cyan)" }} />
-                    <span className="font-plex text-xs" style={{ color:"#4a5568" }}>Сервис производителя</span>
+                ))}
+              </div>
+            </div>
+
+            {/* ── RIGHT: CTA ── */}
+            <div className="lg:col-span-5">
+              <div className="sticky top-20">
+                <div style={{ border:"1px solid #e0e6ef", borderTop:"3px solid var(--cyan)" }}>
+                  <div className="p-7 bg-white">
+                    <p className="font-oswald text-xl font-semibold mb-1" style={{ color:"var(--ink)" }}>
+                      Запросить коммерческое предложение
+                    </p>
+                    <p className="font-plex text-xs mb-6" style={{ color:"#8096ad", fontWeight:300 }}>
+                      Ответим в течение 4 рабочих часов. Укажем актуальную цену и сроки поставки.
+                    </p>
+                    <button onClick={() => navigate("/#contacts")}
+                      className="w-full font-plex text-xs font-semibold uppercase tracking-wider py-4 mb-3 transition-all hover:brightness-110"
+                      style={{ background:"var(--cyan)", color:"#fff" }}>
+                      Запросить КП
+                    </button>
+                    <button onClick={() => navigate("/catalog")}
+                      className="w-full font-plex text-xs font-medium uppercase tracking-wider py-4 transition-all"
+                      style={{ border:"1px solid #dde4ed", color:"#6b7f94" }}
+                      onMouseEnter={e => (e.currentTarget.style.borderColor = "var(--ink)")}
+                      onMouseLeave={e => (e.currentTarget.style.borderColor = "#dde4ed")}>
+                      ← Назад в каталог
+                    </button>
                   </div>
-                  <div className="flex items-center gap-3">
-                    <Icon name="Truck" size={15} style={{ color:"var(--cyan)" }} />
-                    <span className="font-plex text-xs" style={{ color:"#4a5568" }}>Доставка по всей России</span>
+                  <div className="px-7 py-5" style={{ background:"var(--sand)", borderTop:"1px solid #e0e6ef" }}>
+                    {[
+                      { icon:"ShieldCheck", text:"Гарантия 12 месяцев" },
+                      { icon:"Wrench",      text:"Сервис производителя" },
+                      { icon:"Truck",       text:"Доставка по всей России" },
+                      { icon:"GraduationCap", text:"Обучение персонала" },
+                    ].map((b, i) => (
+                      <div key={i} className={`flex items-center gap-3 ${i < 3 ? "mb-3" : ""}`}>
+                        <Icon name={b.icon} size={15} style={{ color:"var(--cyan)" }} fallback="Check" />
+                        <span className="font-plex text-xs" style={{ color:"#4a5568" }}>{b.text}</span>
+                      </div>
+                    ))}
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
 
-        {/* ── RELATED ── */}
-        {related.length > 0 && (
-          <div className="mt-20">
-            <div className="flex items-center gap-3 mb-8">
-              <div className="h-px w-8" style={{ background:"var(--cyan)" }} />
-              <span className="font-oswald text-sm tracking-[0.15em] uppercase" style={{ color:"var(--ink)" }}>
-                Другие модели в категории
-              </span>
-            </div>
-            <div className="grid md:grid-cols-3 gap-5">
-              {related.map(r => (
-                <div key={r.id} onClick={() => navigate(`/catalog/${r.id}`)}
-                  className="group cursor-pointer bg-white transition-all hover:-translate-y-1 hover:shadow-lg"
-                  style={{ border:"1px solid #e0e6ef" }}>
-                  <div className="relative overflow-hidden" style={{ aspectRatio:"16/9" }}>
-                    <img src={r.image} alt={r.model} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
-                    <div className="absolute inset-0" style={{ background:"rgba(13,21,32,0.3)" }} />
-                  </div>
-                  <div className="p-5">
-                    <p className="font-oswald text-xl font-medium mb-1" style={{ color:"var(--ink)" }}>{r.model}</p>
-                    <p className="font-plex text-xs" style={{ color:"#8096ad", fontWeight:300 }}>{r.desc.slice(0, 70)}…</p>
-                    <div className="mt-3 flex items-center gap-1 font-plex text-xs uppercase tracking-wider transition-all group-hover:gap-2"
-                      style={{ color:"var(--cyan)" }}>
-                      Подробнее <Icon name="ArrowRight" size={12} />
+          {/* ── RELATED ── */}
+          {related.length > 0 && (
+            <div className="mt-20">
+              <div className="flex items-center gap-3 mb-8">
+                <div className="h-px w-8" style={{ background:"var(--cyan)" }} />
+                <span className="font-oswald text-sm tracking-[0.15em] uppercase" style={{ color:"var(--ink)" }}>
+                  Другие модели в категории
+                </span>
+              </div>
+              <div className="grid md:grid-cols-3 gap-5">
+                {related.map(r => (
+                  <div key={r.id} onClick={() => { navigate(`/catalog/${r.id}`); setActiveImg(0); }}
+                    className="group cursor-pointer bg-white transition-all hover:-translate-y-1 hover:shadow-lg"
+                    style={{ border:"1px solid #e0e6ef" }}>
+                    <div className="relative overflow-hidden" style={{ aspectRatio:"16/9" }}>
+                      <img src={r.image} alt={r.model} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                      <div className="absolute inset-0" style={{ background:"rgba(13,21,32,0.3)" }} />
+                    </div>
+                    <div className="p-5">
+                      <p className="font-oswald text-xl font-medium mb-1" style={{ color:"var(--ink)" }}>{r.model}</p>
+                      <p className="font-plex text-xs" style={{ color:"#8096ad", fontWeight:300 }}>{r.desc.slice(0, 70)}…</p>
+                      <div className="mt-3 flex items-center gap-1 font-plex text-xs uppercase tracking-wider transition-all group-hover:gap-2"
+                        style={{ color:"var(--cyan)" }}>
+                        Подробнее <Icon name="ArrowRight" size={12} />
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
 
       {/* ── FOOTER ── */}
@@ -214,6 +275,13 @@ export default function Product() {
           </button>
         </div>
       </footer>
+
+      <style>{`
+        @keyframes galleryFade {
+          from { opacity: 0; transform: scale(1.02); }
+          to   { opacity: 1; transform: scale(1); }
+        }
+      `}</style>
     </div>
   );
 }
