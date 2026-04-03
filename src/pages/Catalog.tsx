@@ -111,10 +111,18 @@ export default function Catalog() {
                 className="group cursor-pointer bg-white flex flex-col transition-all duration-200 hover:-translate-y-1 hover:shadow-xl"
                 style={{ border:"1px solid #e0e6ef" }}>
 
-                <div className="px-6 py-4 flex items-center justify-between"
-                  style={{ background:"var(--ink)", borderBottom:"2px solid var(--cyan)" }}>
-                  <span className="font-plex text-xs tracking-[0.2em] uppercase" style={{ color:"var(--cyan)" }}>{item.category}</span>
-                  <Icon name="ChevronRight" size={15} style={{ color:"rgba(255,255,255,0.3)" }} />
+                {/* Product image */}
+                <div className="relative overflow-hidden" style={{ aspectRatio:"16/9" }}>
+                  <img
+                    src={item.image}
+                    alt={item.model}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0" style={{ background:"linear-gradient(180deg, transparent 40%, rgba(13,21,32,0.55) 100%)" }} />
+                  <div className="absolute bottom-0 left-0 right-0 px-5 py-3 flex items-end justify-between">
+                    <span className="font-plex text-xs tracking-[0.2em] uppercase" style={{ color:"var(--cyan)" }}>{item.category}</span>
+                    <Icon name="ChevronRight" size={14} style={{ color:"rgba(255,255,255,0.5)" }} />
+                  </div>
                 </div>
 
                 <div className="p-6 flex flex-col flex-1">
