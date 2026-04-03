@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import Icon from "@/components/ui/icon";
 import { TICKER_ITEMS } from "./data";
 
@@ -6,6 +7,7 @@ interface Props {
 }
 
 export default function HeroAboutSection({ go }: Props) {
+  const navigate = useNavigate();
   return (
     <>
       {/* ── HERO ── */}
@@ -49,7 +51,7 @@ export default function HeroAboutSection({ go }: Props) {
           </p>
 
           <div className="reveal d5 flex flex-wrap gap-4">
-            <button onClick={() => go("equipment")}
+            <button onClick={() => navigate("/catalog")}
               className="flex items-center gap-2.5 font-plex text-sm font-medium uppercase tracking-wider px-8 py-4 transition-all hover:brightness-110"
               style={{ background:"var(--cyan)", color:"#fff" }}>
               <Icon name="Grid3X3" size={16} />

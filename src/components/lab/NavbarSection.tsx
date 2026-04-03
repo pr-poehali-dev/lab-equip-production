@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import Icon from "@/components/ui/icon";
 import { NAV } from "./data";
 
@@ -9,6 +10,16 @@ interface Props {
 }
 
 export default function NavbarSection({ active, menu, setMenu, go }: Props) {
+  const navigate = useNavigate();
+
+  const handleNav = (id: string) => {
+    if (id === "equipment") {
+      navigate("/catalog");
+    } else {
+      go(id);
+    }
+  };
+
   return (
     <header style={{ background:"var(--ink)" }} className="fixed top-0 inset-x-0 z-50">
       <div className="max-w-screen-xl mx-auto px-6 h-14 flex items-center justify-between">
@@ -23,7 +34,7 @@ export default function NavbarSection({ active, menu, setMenu, go }: Props) {
         {/* Desktop nav */}
         <nav className="hidden lg:flex items-center gap-0">
           {NAV.map(n => (
-            <button key={n.id} onClick={() => go(n.id)}
+            <button key={n.id} onClick={() => handleNav(n.id)}
               style={{ color: active === n.id ? "var(--cyan-bright)" : "#9fb3c8" }}
               className="font-plex text-xs tracking-wider px-4 py-4 hover:text-white transition-colors uppercase">
               {n.label}
@@ -46,7 +57,7 @@ export default function NavbarSection({ active, menu, setMenu, go }: Props) {
       {menu && (
         <div style={{ background:"var(--ink-mid)", borderTop:"1px solid rgba(255,255,255,0.06)" }}>
           {NAV.map(n => (
-            <button key={n.id} onClick={() => go(n.id)}
+            <button key={n.id} onClick={() => handleNav(n.id)}
               className="block w-full text-left px-6 py-3.5 font-plex text-sm text-gray-400 hover:text-white uppercase tracking-wide transition-colors">
               {n.label}
             </button>
