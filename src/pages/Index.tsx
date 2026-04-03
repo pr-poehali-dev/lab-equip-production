@@ -45,6 +45,13 @@ const ARTICLES = [
   { icon:"BarChart2", date:"10 января 2024",   title:"Методы ускоренной экстракции органики",                text:"Сравнение PLE, MAE и ультразвуковой экстракции по производительности и расходу растворителей." },
 ];
 
+const VIDEOS = [
+  { duration:"12:34", date:"20 марта 2024",   title:"Обзор центрифуги ЦЛ-2400П: распаковка и запуск",        text:"Пошаговая демонстрация первого запуска, установки ротора и настройки параметров охлаждения." },
+  { duration:"08:15", date:"5 марта 2024",    title:"Фильтрация проб воды на установке ФВУ-100",              text:"Практический урок по подбору мембраны, сборке установки и работе с вакуумным насосом." },
+  { duration:"15:47", date:"14 февраля 2024", title:"Метрологическая поверка лабораторных весов",             text:"Как правильно провести поверку и оформить документацию в соответствии с ГОСТ." },
+  { duration:"06:52", date:"28 января 2024",  title:"Параллельная экстракция на ЭЛ-6П: работа с ячейками",   text:"Загрузка проб, выбор растворителя и программирование цикла давления и нагрева." },
+];
+
 const TICKER_ITEMS = ["ЦЕНТРИФУГИ", "ФИЛЬТРАЦИЯ", "ЭКСТРАКЦИЯ", "ПРОБООТБОРНИКИ", "РАСХОДНЫЕ МАТЕРИАЛЫ", "МЕТРОЛОГИЧЕСКАЯ ПОВЕРКА", "ПРОИЗВОДСТВО РОССИЯ"];
 
 /* ─── COMPONENT ─────────────────────────────────────────── */
@@ -54,6 +61,7 @@ export default function Index() {
   const [cat,      setCat]      = useState("Все");
   const [menu,     setMenu]     = useState(false);
   const [selected, setSelected] = useState<Equipment | null>(null);
+  const [kbTab,    setKbTab]    = useState<"articles"|"videos">("articles");
 
   const go = (id: string) => {
     setActive(id); setMenu(false);
@@ -430,39 +438,93 @@ export default function Index() {
       {/* ── KNOWLEDGE ── */}
       <section id="knowledge" className="py-28" style={{ background:"var(--warm-white)" }}>
         <div className="max-w-screen-xl mx-auto px-6">
+          {/* Header */}
           <div className="flex items-center gap-3 mb-4">
             <div className="h-px w-8" style={{ background:"var(--cyan)" }} />
             <span className="font-plex text-xs tracking-[0.2em] uppercase" style={{ color:"var(--cyan)" }}>База знаний</span>
           </div>
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
             <h2 className="font-oswald font-semibold leading-tight" style={{ fontSize:"clamp(2rem,3.5vw,3rem)", color:"var(--ink)" }}>
               МЕТОДИЧЕСКИЕ<br />МАТЕРИАЛЫ
             </h2>
             <p className="font-plex text-sm max-w-xs" style={{ color:"#6b7f94", fontWeight:300 }}>
-              Протоколы и технические статьи для специалистов аналитических лабораторий.
+              Протоколы, статьи и видеоуроки для специалистов аналитических лабораторий.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-6">
-            {ARTICLES.map((a,i) => (
-              <div key={i} className="group flex gap-6 p-7 cursor-pointer transition-all hover:shadow-lg bg-white"
-                style={{ border:"1px solid #e0e6ef" }}>
-                <div className="w-11 h-11 shrink-0 flex items-center justify-center transition-colors"
-                  style={{ border:"1px solid #e0e6ef" }}>
-                  <Icon name={a.icon} size={20} fallback="FileText" style={{ color:"var(--cyan)" }} />
-                </div>
-                <div>
-                  <p className="font-plex text-xs mb-2" style={{ color:"#9fb3c8" }}>{a.date}</p>
-                  <h3 className="font-plex text-sm font-semibold mb-2 leading-snug" style={{ color:"var(--ink)" }}>{a.title}</h3>
-                  <p className="font-plex text-xs leading-relaxed mb-4" style={{ color:"#6b7f94", fontWeight:300 }}>{a.text}</p>
-                  <div className="flex items-center gap-1.5 font-plex text-xs uppercase tracking-wider transition-all group-hover:gap-2.5"
-                    style={{ color:"var(--cyan)" }}>
-                    Читать <Icon name="ArrowRight" size={13} />
-                  </div>
-                </div>
-              </div>
+          {/* Tabs */}
+          <div className="flex mb-10" style={{ borderBottom:"1px solid #e0e6ef" }}>
+            {([["articles","Статьи","FileText"],["videos","Видео","PlayCircle"]] as const).map(([id, label, icon]) => (
+              <button key={id} onClick={() => setKbTab(id)}
+                className="flex items-center gap-2 font-plex text-sm font-medium px-8 py-3.5 transition-all uppercase tracking-wider"
+                style={kbTab === id
+                  ? { color:"var(--ink)", borderBottom:"2px solid var(--cyan)", marginBottom:"-1px" }
+                  : { color:"#9fb3c8", borderBottom:"2px solid transparent", marginBottom:"-1px" }}>
+                <Icon name={icon} size={15} fallback="File" />
+                {label}
+              </button>
             ))}
           </div>
+
+          {/* Articles tab */}
+          {kbTab === "articles" && (
+            <div className="grid md:grid-cols-2 gap-6">
+              {ARTICLES.map((a,i) => (
+                <div key={i} className="group flex gap-6 p-7 cursor-pointer transition-all hover:shadow-lg bg-white"
+                  style={{ border:"1px solid #e0e6ef" }}>
+                  <div className="w-11 h-11 shrink-0 flex items-center justify-center"
+                    style={{ border:"1px solid #e0e6ef" }}>
+                    <Icon name={a.icon} size={20} fallback="FileText" style={{ color:"var(--cyan)" }} />
+                  </div>
+                  <div>
+                    <p className="font-plex text-xs mb-2" style={{ color:"#9fb3c8" }}>{a.date}</p>
+                    <h3 className="font-plex text-sm font-semibold mb-2 leading-snug" style={{ color:"var(--ink)" }}>{a.title}</h3>
+                    <p className="font-plex text-xs leading-relaxed mb-4" style={{ color:"#6b7f94", fontWeight:300 }}>{a.text}</p>
+                    <div className="flex items-center gap-1.5 font-plex text-xs uppercase tracking-wider transition-all group-hover:gap-2.5"
+                      style={{ color:"var(--cyan)" }}>
+                      Читать <Icon name="ArrowRight" size={13} />
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Videos tab */}
+          {kbTab === "videos" && (
+            <div className="grid md:grid-cols-2 gap-6">
+              {VIDEOS.map((v,i) => (
+                <div key={i} className="group cursor-pointer transition-all hover:shadow-lg bg-white"
+                  style={{ border:"1px solid #e0e6ef" }}>
+                  {/* Thumbnail placeholder */}
+                  <div className="relative flex items-center justify-center"
+                    style={{ background:"var(--ink)", aspectRatio:"16/7" }}>
+                    <div className="absolute inset-0 grid-bg opacity-60" />
+                    {/* Play button */}
+                    <div className="relative z-10 w-14 h-14 flex items-center justify-center transition-transform group-hover:scale-110"
+                      style={{ border:"2px solid var(--cyan)", borderRadius:"50%" }}>
+                      <Icon name="Play" size={22} style={{ color:"var(--cyan)", marginLeft:"3px" }} />
+                    </div>
+                    {/* Duration badge */}
+                    <div className="absolute bottom-3 right-4 font-plex text-xs font-semibold px-2 py-0.5"
+                      style={{ background:"rgba(13,21,32,0.85)", color:"var(--cyan)", border:"1px solid rgba(26,158,192,0.3)" }}>
+                      {v.duration}
+                    </div>
+                  </div>
+                  {/* Info */}
+                  <div className="p-6">
+                    <p className="font-plex text-xs mb-2" style={{ color:"#9fb3c8" }}>{v.date}</p>
+                    <h3 className="font-plex text-sm font-semibold mb-2 leading-snug" style={{ color:"var(--ink)" }}>{v.title}</h3>
+                    <p className="font-plex text-xs leading-relaxed mb-4" style={{ color:"#6b7f94", fontWeight:300 }}>{v.text}</p>
+                    <div className="flex items-center gap-1.5 font-plex text-xs uppercase tracking-wider transition-all group-hover:gap-2.5"
+                      style={{ color:"var(--cyan)" }}>
+                      Смотреть <Icon name="ArrowRight" size={13} />
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
